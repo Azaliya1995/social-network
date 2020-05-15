@@ -1,38 +1,42 @@
 import React from "react";
 import "./App.css";
-import {BrowserRouter, Route} from "react-router-dom";
+import {Route} from "react-router-dom";
 import Header from "./Components/Header/Header";
 import NavBar from "./Components/Nav/Nav";
 import Profile from "./Components/Profile/Profile";
-import Dialogs from "./Components/Dialogs/Dialogs";
 import News from "./Components/News/News";
 import Music from "./Components/Music/Music";
 import Settings from "./Components/Settings/Settings";
+import DialogsContainer from "./Components/Dialogs/DialogsContainer";
+import store from "./redux/store";
+import UsersContainer from "./Components/Users/UsersContainer";
 
 
-const App = (props) => {
+const App = () => {
     //функция возвращает разметку jsx
     //props - объект, который передает в компоненту какие-то данные
+    let state = store.getState();
 
     return (
         <div className="app-wrapper">
             <Header/>
-            <NavBar state={props.state.sidebar}/>
+            <NavBar store={state.sidebar}/>
             <div className="app-wrapper-content">
                 <Route path="/dialogs"
-                       render={() => <Dialogs state={props.state.dialogsPage}
-                                              dispatch={props.dispatch}
+                       render={() => <DialogsContainer
                        />}/>
 
                 <Route path="/profile"
-                       render={() => <Profile profilePage={props.state.profilePage}
-                                              dispatch={props.dispatch}
-                           />}/>
+                       render={() => <Profile
+                       />}/>
+
+                <Route path="/users"
+                       render={() => <UsersContainer />
+                       }/>
 
                 <Route path="/news" component={News}/>
                 <Route path="/music" component={Music}/>
                 <Route path="/settings" component={Settings}/>
-
             </div>
         </div>
     );

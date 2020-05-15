@@ -2,8 +2,8 @@ import React from "react";
 import FriendItem from "./FriendItem";
 
 const Friends = props => {
-    let friendsElements = props.state.friends.map(friend =>
-        <FriendItem name={friend.friendName} id={friend.id}/>
+    let friendsElements = props.store.friends.map(friend =>
+        <FriendItem name={friend.friendName} id={friend.id} key={friend.id} />
     );
 console.log(props);
     return (

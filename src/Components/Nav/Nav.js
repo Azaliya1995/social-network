@@ -25,7 +25,7 @@ const NavBar = (props) => {
 
                 <div className={NavStyles.item}>
                     <h3 activeClassName={NavStyles.activeLink}>Friends</h3>
-                    <Friends state={props.state}/>
+                    <Friends store={props.store}/>
                 </div>
             </div>
         </nav>
