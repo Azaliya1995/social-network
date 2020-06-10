@@ -1,63 +1,73 @@
 import React from 'react';
 import styles from './users.module.css';
+import userPhoto from '../../assets/images/user.png';
+import {NavLink} from "react-router-dom";
+import * as axios from "axios";
 
-let Users = (props) => {
+let Users = (props) => { //презентационная компонента
 
-    if (props.users.length === 0) {
+    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
 
-        props.setUsers([
-            {
-                id: 1,
-                photoURL: "https://placekitten.com/200/300",
-                followed: false,
-                fullName: "Dima",
-                status: "Who am I",
-                location: {city: "Minsk", country: "Belarus"}
-            },
-            {
-                id: 2,
-                photoURL: "https://placekitten.com/200/300",
-                followed: true,
-                fullName: "Sasha",
-                status: "Hi",
-                location: {city: "Moscow", country: "Russia"}
-            },
-            {
-                id: 3,
-                photoURL: "https://placekitten.com/200/300",
-                followed: false,
-                fullName: "Masha",
-                status: "Lalala",
-                location: {city: "Kazan", country: "Russia"}
-            },
-            {
-                id: 4,
-                photoURL: "https://placekitten.com/200/300",
-                followed: true,
-                fullName: "Dasha",
-                status: "Hello",
-                location: {city: "Kiev", country: "Ukraine"}
-            }]);
+    let pages = [];
+    for (let i = 1; i <= pagesCount; i++) {
+        pages.push(i);
     }
 
     return (
         <div>
+            <div>
+                {pages.map(page => {
+                    return <span className={props.currentPage === page && styles.selectedPage}
+                                 onClick={(event) => { //event - нигде не используем, но пишем, т.к. это обработчик событий
+                                     props.onPageChanged(page);
+                                 }}>{page}</span>
+                })}
+            </div>
+
             {
                 props.users.map(user =>
                     <div key={user.id}>
                         <span>
                             <div>
-                                <img src={user.photoURL} className={styles.userPhoto}/>
+                                <NavLink to={'/profile/' + user.id}>
+                                <img src={user.photos.small ? user.photos.small : userPhoto}
+                                     className={styles.userPhoto}/>
+                                     </NavLink>
                             </div>
 
                             <div>
                                 {
                                     user.followed
                                         ? <button onClick={() => {
-                                            props.unFollow(user.id)
+
+                                            axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${user.id}`, {
+                                                    withCredentials: true,
+                                                    headers: {
+                                                        "API-KEY": "ba8e47d3-0752-43ef-8c05-b8e92d87678a"
+                                                    }
+                                                }
+                                            )
+                                                .then(response => {
+                                                    if (response.data.resultCode == 0) {
+                                                        props.unFollow(user.id)
+                                                    }
+                                                });
                                         }}>Unfollow</button>
+
                                         : <button onClick={() => {
-                                            props.follow(user.id)
+
+                                            axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${user.id}`, {}, {
+                                                    withCredentials: true,
+                                                    headers: {
+                                                        "API-KEY": "ba8e47d3-0752-43ef-8c05-b8e92d87678a"
+                                                    }
+                                                }
+                                            )
+                                                .then(response => {
+                                                    if (response.data.resultCode == 0) {
+                                                        props.follow(user.id)
+                                                    }
+                                                });
                                         }}>Follow</button>
                                 }
                             </div>
@@ -65,11 +75,11 @@ let Users = (props) => {
 
                         <span>
                             <span>
-                                <div> {user.fullName} </div>
+                                <div> {user.name} </div>
                                 <div> {user.status} </div>
 
-                                <div> {user.location.country} </div>
-                                <div> {user.location.city} </div>
+                                <div> {"user.location.country"} </div>
+                                <div> {"user.location.city"} </div>
                             </span>
                         </span>
                     </div>)

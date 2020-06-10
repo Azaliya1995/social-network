@@ -1,15 +1,15 @@
 import React from "react";
 import "./App.css";
 import {Route} from "react-router-dom";
-import Header from "./Components/Header/Header";
 import NavBar from "./Components/Nav/Nav";
-import Profile from "./Components/Profile/Profile";
 import News from "./Components/News/News";
 import Music from "./Components/Music/Music";
 import Settings from "./Components/Settings/Settings";
 import DialogsContainer from "./Components/Dialogs/DialogsContainer";
 import store from "./redux/store";
 import UsersContainer from "./Components/Users/UsersContainer";
+import ProfileContainer from "./Components/Profile/ProfileInfo/ProfileContainer";
+import HeaderContainer from "./Components/Header/HeaderContainer";
 
 
 const App = () => {
@@ -19,15 +19,15 @@ const App = () => {
 
     return (
         <div className="app-wrapper">
-            <Header/>
+            <HeaderContainer />
             <NavBar store={state.sidebar}/>
             <div className="app-wrapper-content">
                 <Route path="/dialogs"
                        render={() => <DialogsContainer
                        />}/>
 
-                <Route path="/profile"
-                       render={() => <Profile
+                <Route path="/profile/:userId?"
+                       render={() => <ProfileContainer
                        />}/>
 
                 <Route path="/users"
