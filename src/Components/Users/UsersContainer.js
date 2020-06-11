@@ -4,7 +4,7 @@ import {
     follow,
     unFollow,
     setUsers,
-    setCurrentPage, setTotalUsersCount, toggleIsFetching
+    setCurrentPage, setTotalUsersCount, toggleIsFetching, toggleFollowingProgress
 } from "../../redux/users-reducer";
 import UsersAPIComponent from "./UsersAPIComponent";
 
@@ -15,7 +15,8 @@ const mapStateToProps = (state) => { //настраивает данные ко�
         pageSize: state.usersPage.pageSize,
         totalUsersCount: state.usersPage.totalUsersCount,
         currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching
+        isFetching: state.usersPage.isFetching,
+        followingInProgress: state.usersPage.followingInProgress
     }
 };
 
@@ -25,7 +26,9 @@ const UsersContainer = connect(mapStateToProps, {
     setUsers,
     setCurrentPage,
     setTotalUsersCount,
-    toggleIsFetching //диспачим не сам ActionCreator, а его вызов
+    toggleIsFetching,
+    toggleFollowingProgress
+    //диспачим не сам ActionCreator, а его вызов (connect из AC сам создаст коллбэк, который внутри задиспачит то, что вернет AC)
 })(UsersAPIComponent); //законнекть Users к store, коннект возвращает новую контейнерную компоненту
 
 export default UsersContainer;

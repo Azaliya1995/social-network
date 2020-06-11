@@ -19,7 +19,7 @@ const App = () => {
 
     return (
         <div className="app-wrapper">
-            <HeaderContainer />
+            <HeaderContainer/>
             <NavBar store={state.sidebar}/>
             <div className="app-wrapper-content">
                 <Route path="/dialogs"
@@ -31,7 +31,7 @@ const App = () => {
                        />}/>
 
                 <Route path="/users"
-                       render={() => <UsersContainer />
+                       render={() => <UsersContainer/>
                        }/>
 
                 <Route path="/news" component={News}/>

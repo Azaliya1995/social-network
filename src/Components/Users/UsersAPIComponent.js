@@ -20,7 +20,7 @@ class UsersAPIComponent extends React.Component { //контейнерная API
         this.props.toggleIsFetching(true);
 
         usersAPI.getUsers(pageNumber, this.props.pageSize)
-                .then(data => {
+            .then(data => {
                 this.props.setUsers(data.items);
                 this.props.toggleIsFetching(false);
             });
@@ -37,6 +37,8 @@ class UsersAPIComponent extends React.Component { //контейнерная API
                        users={this.props.users}
                        follow={this.props.follow}
                        unFollow={this.props.unFollow}
+                       toggleFollowingProgress={this.props.toggleFollowingProgress}
+                       followingInProgress={this.props.followingInProgress}
                 />
             }
         </>
