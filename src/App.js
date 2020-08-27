@@ -10,6 +10,7 @@ import store from "./redux/store";
 import UsersContainer from "./Components/Users/UsersContainer";
 import ProfileContainer from "./Components/Profile/ProfileInfo/ProfileContainer";
 import HeaderContainer from "./Components/Header/HeaderContainer";
+import LoginPage from "./Components/Login/Login";
 
 
 const App = () => {
@@ -32,6 +33,10 @@ const App = () => {
 
                 <Route path="/users"
                        render={() => <UsersContainer/>
+                       }/>
+
+                <Route path="/login"
+                       render={() => <LoginPage/>
                        }/>
 
                 <Route path="/news" component={News}/>

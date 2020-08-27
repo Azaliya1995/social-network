@@ -1,12 +1,12 @@
-import React from "react";
 import {connect} from "react-redux";
 import {
     follow,
-    unFollow,
-    setUsers,
-    setCurrentPage, setTotalUsersCount, toggleIsFetching, toggleFollowingProgress
+    unFollowSuccess,
+    setCurrentPage, toggleFollowingProgress, getUsers, unFollow
 } from "../../redux/users-reducer";
 import UsersAPIComponent from "./UsersAPIComponent";
+import {withAuthRedirect} from "../../hoc/WithAuthRedirect";
+import {compose} from "redux";
 
 const mapStateToProps = (state) => { //настраивает данные которые мы берем из state(store) для connect
     return {
@@ -20,18 +20,19 @@ const mapStateToProps = (state) => { //настраивает данные ко�
     }
 };
 
-const UsersContainer = connect(mapStateToProps, {
-    follow,
-    unFollow,
-    setUsers,
-    setCurrentPage,
-    setTotalUsersCount,
-    toggleIsFetching,
-    toggleFollowingProgress
-    //диспачим не сам ActionCreator, а его вызов (connect из AC сам создаст коллбэк, который внутри задиспачит то, что вернет AC)
-})(UsersAPIComponent); //законнекть Users к store, коннект возвращает новую контейнерную компоненту
 
-export default UsersContainer;
+export default compose(
+    withAuthRedirect,
+    connect(mapStateToProps, {
+        follow,
+        unFollow,
+        unFollowSuccess,
+        setCurrentPage,
+        toggleFollowingProgress,
+        getUsers
+        //диспачим не сам ActionCreator, а его вызов (connect из AC сам создаст коллбэк, который внутри задиспачит то, что вернет AC)
+    })
+)(UsersAPIComponent);
 
 /*
 22-29

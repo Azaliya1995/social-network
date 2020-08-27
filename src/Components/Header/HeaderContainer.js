@@ -1,18 +1,12 @@
 import React from "react";
 import Header from "./Header";
 import {connect} from "react-redux";
-import {setAuthUserData} from "../../redux/auth-reducer";
-import {AuthAPI} from "../../api/api";
+import {getAuthUserData, logout} from "../../redux/auth-reducer";
+
 
 class HeaderContainer extends React.Component {
     componentDidMount() {
-        AuthAPI.auth().then(data => {
-            if (data.resultCode === 0) {
-                let {id, login, email} = data.data;
-                this.props.setAuthUserData(id, email, login);
-                //data.data - стандартная структура axios, data(второй раз) т.к. в properties данные тоже называются data
-            }
-        });
+        this.props.getAuthUserData();
     }
 
     render() {
@@ -20,7 +14,7 @@ class HeaderContainer extends React.Component {
             <Header {...this.props} />
         );
     }
-};
+}
 
 const mapStateToProps = (state) => ({
     isAuth: state.auth.isAuth,
@@ -28,4 +22,4 @@ const mapStateToProps = (state) => ({
 
 }); //функция принимает state, возвращает объект
 
-export default connect(mapStateToProps, {setAuthUserData})(HeaderContainer);
+export default connect(mapStateToProps, {getAuthUserData, logout})(HeaderContainer);
